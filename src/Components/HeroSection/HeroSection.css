@@ -1,5 +1,5 @@
 .hero {
-    background: url('C:/react/FoodShare/food-share/public/bg2.jpg') no-repeat  center/cover;
+    background: url('/public/bg2.jpg') no-repeat  center/cover;
     padding: 20vh 20px;
     height: 100vh;
     color: white;

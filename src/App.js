@@ -5,11 +5,12 @@ import './App.css';
 import HeroSection from './Components/HeroSection/HeroSection';
 
 function App() {
+  const [cards, setCards] = useState(false);
   return (
     <div className="App">
       <Navbar />
-      <HeroSection/>
-      <SectionCards />
+      <HeroSection cards={cards} setCards={setCards}/>
+      <SectionCards cards={cards} setCards={setCards}/>
     </div>
   );
 }
