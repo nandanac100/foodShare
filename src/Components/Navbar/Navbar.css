@@ -1,0 +1,122 @@
+/* General Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(black 30%,transparent);
+  padding: 3rem;
+  color: #fff;
+  width: 100%;
+  height: 10vh;
+  position: fixed;
+  z-index: 10;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Desktop Navbar Links */
+.navbar-links {
+  display: flex;
+  justify-content: end;
+  gap: 2rem;
+}
+
+.navbar-links a {
+    
+  color: white;
+  text-decoration: none;
+}
+
+/* Hide Navbar Links when sidebar is open */
+.navbar-links.hide {
+  display: none;
+}
+
+/* Menu bar button (for mobile) */
+.navbar-toggle {
+  display: none;
+  background: none;
+  
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Sidebar for smaller devices */
+.sidebar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  padding-top: 60px;
+  z-index: 100;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+  display: block;
+  transform: translateX(0);
+}
+
+.sidebar a {
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  text-align: center;
+}
+
+/* Close button inside the sidebar */
+.sidebar-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none; /* Hide links on mobile by default */
+  }
+
+  .navbar-toggle {
+    display: block; /* Show hamburger icon on mobile */
+  }
+
+  .navbar-links.open {
+    display: flex; /* Show the sidebar links when open */
+  }
+
+  .sidebar.open {
+    display: block; /* Show sidebar when open */
+  }
+
+  /* Overlay background blur effect */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    backdrop-filter: blur(5px); /* Blur the background */
+    z-index: 99;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+}
