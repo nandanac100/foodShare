@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Import axios for making HTTP requests
-const Details = ({ cards, setCards, userId }) => {  // Accept userId as a prop or use context for the logged-in user
-    const navigate = useNavigate();
+
+const Details = ({ cards, setCards, userId }) => {
+  const navigate = useNavigate();
+
+  // Update formData to store the file as 'image'
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -11,14 +14,17 @@ const Details = ({ cards, setCards, userId }) => {  // Accept userId as a prop o
     price: '',
     location: '',
     expiry_date: '',
-    image_url: '',
+    image: null,  // Use 'image' to store the file
     user: 1,  // Assuming userId is passed as a prop or available via context
   });
-  
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, files } = e.target;
+    if (type === 'file') {
+      setFormData({ ...formData, [name]: files[0] });  // Store the selected file in state
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -26,22 +32,24 @@ const Details = ({ cards, setCards, userId }) => {  // Accept userId as a prop o
     navigate('/');
 
     try {
-      // Send form data as a POST request to the backend
-      const response = await axios.post('http://127.0.0.1:8000/api/add_list/', formData, {
+      const formDataToSend = new FormData();  // Create a FormData object for file upload
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);  // Append all fields, including the image file
+      }
+
+      const response = await axios.post('http://127.0.0.1:8000/api/add_list/', formDataToSend, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',  // Important for file upload
         },
       });
 
-      // If the request is successful, update the cards state
       if (response.status === 201) {
-        const newCard = { ...formData, id: cards.length + 1 }; // Optionally, you can add the new card ID if needed
+        const newCard = { ...formData, id: cards.length + 1 };
         setCards((prevCards) => ({
           ...prevCards,
-          data: [...(prevCards?.data || []), newCard], // Update the state with the new card data
+          data: [...(prevCards?.data || []), newCard],
         }));
 
-        // Navigate to the 'cards' page
         navigate('/cards');
       }
     } catch (error) {
@@ -138,21 +146,23 @@ const Details = ({ cards, setCards, userId }) => {  // Accept userId as a prop o
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="image_url"
-                label=" "
-                type='file'
-                name="image_url"
-                value={formData.image_url}
-                onChange={handleChange}
-              />
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="subtitle2" sx={{ marginBottom: 1 }}>
+                  Upload Image
+                </Typography>
+                <input
+                  required
+                  type="file"
+                  id="image"
+                  name="image"  // Changed from 'image_url' to 'image' to align with the state
+                  onChange={handleChange}
+                  style={{ width: '100%' }}  // Make file input full-width
+                />
+              </Box>
             </Grid>
-            
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Add 
+            Add Card
           </Button>
         </Box>
       </Container>
