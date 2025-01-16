@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './HeroSection.css';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 const HeroSection = ({cards,setCards}) => {
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState('');
   const [location, setLocation] = useState('');
   // const [results, setResults] = useState([]);
@@ -17,6 +20,7 @@ const HeroSection = ({cards,setCards}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    navigate('/cards');
 
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/get_list/', {
@@ -61,6 +65,7 @@ const HeroSection = ({cards,setCards}) => {
               <option value="pay">Pay</option>
               <option value="free">Free</option>
             </select>
+            
             <button type="submit" className="btn get-started">
               Submit
             </button>

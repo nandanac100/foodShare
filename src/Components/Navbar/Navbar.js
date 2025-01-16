@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,19 +23,19 @@ const Navbar = () => {
       {/* Sidebar for smaller devices */}
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <button className="sidebar-close" onClick={toggleSidebar}>×</button>
-        <a href="#home" onClick={toggleSidebar}>Home</a>
+        <Link to="/"><a href="#home" onClick={toggleSidebar}>Home</a></Link>
         <a href="#about" onClick={toggleSidebar}>About Us</a>
-        <a href="#list-food" onClick={toggleSidebar}>List Food</a>
-        <a href="#cost" onClick={toggleSidebar}>Cost Us</a>
+        <a href="#list-food" onClick={toggleSidebar}>Food Categories</a>
+        <Link to="/details"><a href="#cost" onClick={toggleSidebar}>Cost Us</a> </Link>
       </div>
 
      </div>
       {/* Navbar links for larger screens */}
       <nav className={`navbar-links ${isOpen ? 'hide' : ''}`}>
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#list-food">List Food</a>
-        <a href="#cost">Cost Us</a>
+      <Link to="/"><a href="#home">Home</a></Link>
+      <Link to="/"><a href="#about">About Us</a></Link>
+      <Link to="/"><a href="#list-food"> Food Categories</a></Link>
+      <Link to="/details"><a href="#cost">Cost Us</a></Link>
       </nav>
 
       {/* Overlay for background blur effect */}
