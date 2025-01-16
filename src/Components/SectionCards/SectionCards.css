@@ -7,10 +7,11 @@
   gap: 20px;
   padding: 20px;
   padding-top: 15vh;
-  background-color: #f5f5f5; /* Light gray background for contrast */
+  background-color: #d7d7d6; /* Light gray background for contrast */
 }
 .head{
   width: 100%;
+  font-size: 1rem;
 
 }
 

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-const Details = ({ cards, setCards }) => {
+import axios from 'axios';  // Import axios for making HTTP requests
+const Details = ({ cards, setCards, userId }) => {  // Accept userId as a prop or use context for the logged-in user
+    const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -11,22 +12,41 @@ const Details = ({ cards, setCards }) => {
     location: '',
     expiry_date: '',
     image_url: '',
+    user: 1,  // Assuming userId is passed as a prop or available via context
   });
-  const navigate = useNavigate();
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newCard = { ...formData, id: cards.length + 1 };
-    setCards((prevCards) => ({
-      ...prevCards,
-      data: [...(prevCards?.data || []), newCard],
-    }));
-    navigate('/cards'); // Redirect to cards page
+    navigate('/');
+
+    try {
+      // Send form data as a POST request to the backend
+      const response = await axios.post('http://127.0.0.1:8000/api/add_list/', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // If the request is successful, update the cards state
+      if (response.status === 201) {
+        const newCard = { ...formData, id: cards.length + 1 }; // Optionally, you can add the new card ID if needed
+        setCards((prevCards) => ({
+          ...prevCards,
+          data: [...(prevCards?.data || []), newCard], // Update the state with the new card data
+        }));
+
+        // Navigate to the 'cards' page
+        navigate('/cards');
+      }
+    } catch (error) {
+      console.error('Error sending data to backend:', error);
+    }
   };
 
   return (
@@ -42,8 +62,8 @@ const Details = ({ cards, setCards }) => {
       }}
     >
       <Container maxWidth="sm">
-        <Typography component="h1" variant="h5" align="center">
-          Add a New Card
+        <Typography component="h2" variant="h4" align="center">
+          Add Food
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -122,15 +142,17 @@ const Details = ({ cards, setCards }) => {
                 required
                 fullWidth
                 id="image_url"
-                label="Image URL"
+                label=" "
+                type='file'
                 name="image_url"
                 value={formData.image_url}
                 onChange={handleChange}
               />
             </Grid>
+            
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Add Card
+            Add 
           </Button>
         </Box>
       </Container>

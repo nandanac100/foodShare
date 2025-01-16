@@ -26,16 +26,17 @@ const Navbar = () => {
         <Link to="/"><a href="#home" onClick={toggleSidebar}>Home</a></Link>
         <a href="#about" onClick={toggleSidebar}>About Us</a>
         <a href="#list-food" onClick={toggleSidebar}>Food Categories</a>
-        <Link to="/details"><a href="#cost" onClick={toggleSidebar}>Cost Us</a> </Link>
+        <Link to="/details"><a href="#cost" onClick={toggleSidebar}>Add Food</a> </Link>
       </div>
 
      </div>
       {/* Navbar links for larger screens */}
       <nav className={`navbar-links ${isOpen ? 'hide' : ''}`}>
       <Link to="/"><a href="#home">Home</a></Link>
+      <Link to="/details"><a href="#cost">Add Food</a></Link>
       <Link to="/"><a href="#about">About Us</a></Link>
-      <Link to="/"><a href="#list-food"> Food Categories</a></Link>
-      <Link to="/details"><a href="#cost">Cost Us</a></Link>
+      <Link to="/cards"><a href="#list-food"> Food Categories</a></Link>
+      
       </nav>
 
       {/* Overlay for background blur effect */}
